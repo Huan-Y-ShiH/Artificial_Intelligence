@@ -1,0 +1,52 @@
+/* 整体容器 */
+.container {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  /* 卡片样式 */
+  .card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* 用户信息区域 */
+  .pref {
+    font-size: 16px;
+    color: #333;
+  }
+  .pref .goal {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  .pref .preference {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* 餐饮推荐区域 */
+  .meal-plan .title,
+  .note .title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  .meal-plan .meal-item {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  
+  /* 推荐理由区域 */
+  .note .reason {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+  }
+  

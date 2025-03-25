@@ -1,0 +1,40 @@
+<view class="container">
+  <view class="section">
+    <text>昵称：</text>
+    <text>{{userInfo ? userInfo.nickName : '未获取'}}</text>
+  </view>
+  <view class="section">
+    <text>性别：</text>
+    <radio-group model:value="{{profile.gender}}">
+      <label><radio value="男"/> 男</label>
+      <label style="margin-left:20rpx;"><radio value="女"/> 女</label>
+    </radio-group>
+  </view>
+  <view class="section">
+    <text>年龄：</text>
+    <input type="number" model:value="{{profile.age}}" placeholder="请输入年龄" />
+  </view>
+  <view class="section">
+    <text>身高(cm)：</text>
+    <input type="number" model:value="{{profile.height}}" placeholder="例如170" />
+  </view>
+  <view class="section">
+    <text>体重(kg)：</text>
+    <input type="number" model:value="{{profile.weight}}" placeholder="例如65" />
+  </view>
+  <view class="section">
+    <text>运动频率：</text>
+    <picker mode="selector" range="{{exerciseOptions}}" bindchange="onExerciseChange">
+      <view class="picker">{{profile.exerciseFreq || '请选择运动频率'}}</view>
+    </picker>
+  </view>
+  <view class="section">
+    <text>健康目标：</text>
+    <radio-group model:value="{{profile.goal}}">
+      <block wx:for="{{goalOptions}}" wx:key="value">
+        <label style="margin-right:20rpx;"><radio value="{{item}}"/> {{item}}</label>
+      </block>
+    </radio-group>
+  </view>
+  <button type="primary" bindtap="saveProfile">保存</button>
+</view>

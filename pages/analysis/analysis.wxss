@@ -1,0 +1,61 @@
+/* 整体页面背景 */
+.container {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+  }
+  
+  /* 内容区域留边 */
+  .content {
+    padding: 20px;
+  }
+  
+  /* 每个数据块 */
+  .section {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* 分区标题 */
+  .section-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  /* 每天记录样式 */
+  .record {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .record:last-child {
+    border-bottom: none;
+  }
+  .record-date {
+    color: #666;
+  }
+  .record-calorie {
+    color: #333;
+  }
+  
+  /* 异常提醒项 */
+  .alert-item {
+    padding: 8px 0;
+    color: #d9534f; /* 红色字体 */
+    border-bottom: 1px solid #eee;
+  }
+  .alert-item:last-child {
+    border-bottom: none;
+  }
+  
+  /* 总体建议 */
+  .suggestion {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+  }
+  

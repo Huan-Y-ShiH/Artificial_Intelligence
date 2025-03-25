@@ -1,0 +1,36 @@
+<view class="container">
+  <!-- 操作按钮区 -->
+  <view class="add-buttons">
+    <button bindtap="chooseImage">拍照识别</button>
+    <button bindtap="manualInput">手动添加</button>
+    <button bindtap="voiceInput">语音输入</button>
+  </view>
+
+  <!-- 今日总结 -->
+  <view class="today-summary">
+    <text>今日已记录 {{foodList.length}} 项，饮水 {{waterCount}} 杯</text>
+    <text>总热量: {{totalCal}} kcal</text>
+  </view>
+
+  <!-- 食物记录列表 -->
+  <view class="record-list">
+    <block wx:for="{{foodList}}" wx:key="name">
+      <view class="record-item">
+        <text>{{item.name}} - {{item.calorie}} kcal</text>
+        <text class="small">{{item.note}}</text>
+      </view>
+    </block>
+    <!-- 饮水记录展示 -->
+    <block wx:if="{{waterCount > 0}}">
+      <view class="record-item">
+        <text>饮水 {{waterCount}} 杯</text>
+      </view>
+    </block>
+  </view>
+
+  <!-- 饮水操作 -->
+  <view class="water-section">
+    <button bindtap="addWater">+1 杯水</button>
+    <button bindtap="resetWater" class="gray">重置饮水</button>
+  </view>
+</view>

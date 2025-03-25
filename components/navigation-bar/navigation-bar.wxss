@@ -1,0 +1,31 @@
+.nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 44px;
+    padding: 0 15px;
+    /* 渐变背景，让整体视觉更丰富 */
+    background: linear-gradient(90deg, #1AAD19, #00C853);
+    color: #fff;
+    font-size: 18px;
+  }
+  
+  .left, .right {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .title {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .icon {
+    width: 100%;
+    height: 100%;
+  }
+  

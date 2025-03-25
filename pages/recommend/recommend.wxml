@@ -1,0 +1,23 @@
+<view class="container">
+  <!-- 显示用户健康目标与偏好 -->
+  <view class="pref card">
+    <text class="goal">您的健康目标：{{profile.goal}}</text>
+    <text class="preference">
+      偏好：
+      {{preference.vegetarian ? '素食 ' : ''}}
+      {{preference.lactoseFree ? '无乳糖 ' : ''}}
+    </text>
+  </view>
+  <!-- 显示今日餐饮推荐 -->
+  <view class="meal-plan card">
+    <text class="title">今日餐饮推荐</text>
+    <text class="meal-item">早餐：{{todayMeals.breakfast}}</text>
+    <text class="meal-item">午餐：{{todayMeals.lunch}}</text>
+    <text class="meal-item">晚餐：{{todayMeals.dinner}}</text>
+  </view>
+  <!-- 显示推荐理由 -->
+  <view class="note card">
+    <text class="title">推荐理由：</text>
+    <text class="reason">{{todayMeals.note}}</text>
+  </view>
+</view>

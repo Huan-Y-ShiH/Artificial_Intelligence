@@ -1,0 +1,59 @@
+/**index.wxss**/
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.scrollarea {
+    height: 100vh;
+    background-color: #f8f8f8;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 120rpx;
+  }
+  
+  .title {
+    font-size: 48rpx;
+    color: #333;
+    margin-bottom: 80rpx;
+    font-weight: bold;
+  }
+  
+  .userinfo {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .login-btn {
+    padding: 20rpx 80rpx;
+    font-size: 32rpx;
+    border-radius: 50rpx;
+    background-color: #07c160;
+    color: #fff;
+    border: none;
+  }
+  
+  .user-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .avatar {
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 50%;
+    box-shadow: 0 10rpx 20rpx rgba(0, 0, 0, 0.1);
+    margin-bottom: 20rpx;
+  }
+  
+  .nickname {
+    font-size: 36rpx;
+    color: #333;
+    font-weight: bold;
+  }
+  

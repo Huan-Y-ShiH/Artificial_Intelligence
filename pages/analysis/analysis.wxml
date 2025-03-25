@@ -1,0 +1,32 @@
+<view class="container">
+  <!-- 导航栏组件 -->
+  <navigation-bar title="营养分析" showLeftIcon="true"></navigation-bar>
+  <view class="content">
+    <!-- 最近7天记录 -->
+    <view class="section">
+      <text class="section-title">最近7天热量摄入 (kcal)：</text>
+      <block wx:for="{{last7days}}" wx:key="date">
+        <view class="record">
+          <text class="record-date">{{item.date}}</text>
+          <text class="record-calorie">{{item.calorie}} kcal</text>
+        </view>
+      </block>
+    </view>
+    <!-- 异常提醒 -->
+    <view class="section" wx:if="{{alerts.length}}">
+      <text class="section-title">异常提醒：</text>
+      <block wx:for="{{alerts}}" wx:key="*this">
+        <view class="alert-item">
+          <text>{{index+1}}. {{item}}</text>
+        </view>
+      </block>
+    </view>
+    <!-- 总体建议 -->
+    <view class="section">
+      <text class="section-title">总体建议：</text>
+      <view class="suggestion">
+        <text>{{suggestion}}</text>
+      </view>
+    </view>
+  </view>
+</view>
