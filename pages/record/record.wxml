@@ -1,36 +1,145 @@
-<view class="container">
-  <!-- 操作按钮区 -->
-  <view class="add-buttons">
-    <button bindtap="chooseImage">拍照识别</button>
-    <button bindtap="manualInput">手动添加</button>
-    <button bindtap="voiceInput">语音输入</button>
+<wxs module="m">
+function pct(a, b) {
+  if (!b) return 0;
+  var p = (a / b) * 100;
+  if (p > 100) p = 100;
+  return Math.round(p * 10) / 10;
+}
+module.exports.pct = pct;
+</wxs>
+
+<scroll-view
+  class="page safe-page {{tabBarHidden ? 'safe-page--compact' : ''}}"
+  style="height: {{scrollViewHeight}}px;"
+  scroll-y="{{true}}"
+  bindscroll="onTabPageScroll"
+  bindscrolltoupper="onTabPageScrollToUpper"
+  upper-threshold="50"
+>
+  <view class="health-tip">
+    <text class="tip-title">健康小贴士</text>
+    <text class="tip-body">建议每日饮水 1500–2000ml，少油少盐、先吃蔬菜再主食。</text>
   </view>
 
-  <!-- 今日总结 -->
-  <view class="today-summary">
-    <text>今日已记录 {{foodList.length}} 项，饮水 {{waterCount}} 杯</text>
-    <text>总热量: {{totalCal}} kcal</text>
-  </view>
+  <view class="card food-card">
+    <view class="card-head">
+      <text class="card-title">食物营养成分记录</text>
+      <text class="card-emoji">🥗</text>
+    </view>
+    <view class="field-label">预估食物重量（克）</view>
+    <input class="field-input" type="number" value="{{foodWeightGram}}" bindinput="onWeightInput" placeholder="100" />
 
-  <!-- 食物记录列表 -->
-  <view class="record-list">
-    <block wx:for="{{foodList}}" wx:key="name">
-      <view class="record-item">
-        <text>{{item.name}} - {{item.calorie}} kcal</text>
-        <text class="small">{{item.note}}</text>
+    <view class="mode-row">
+      <view
+        class="mode-btn {{inputMode === 'manual' ? 'on' : ''}}"
+        data-mode="manual"
+        bindtap="setInputMode"
+      >手动选择</view>
+      <view
+        class="mode-btn alt {{inputMode === 'photo' ? 'on' : ''}}"
+        data-mode="photo"
+        bindtap="setInputMode"
+      >拍照识别</view>
+    </view>
+
+    <block wx:if="{{inputMode === 'photo'}}">
+      <view class="upload-zone" bindtap="chooseImage">
+        <text class="upload-icon">📷</text>
+        <text class="upload-main">点击上传或拍照识别食物</text>
+        <text class="upload-sub">支持 JPEG / PNG · 本地模拟识别为「苹果」</text>
       </view>
     </block>
-    <!-- 饮水记录展示 -->
-    <block wx:if="{{waterCount > 0}}">
-      <view class="record-item">
-        <text>饮水 {{waterCount}} 杯</text>
-      </view>
+    <block wx:else>
+      <button class="btn-primary full" bindtap="manualAdd">录入食物名称</button>
+      <button class="btn-ghost full mini-top" bindtap="voiceInput">语音输入（说明）</button>
     </block>
+
+    <view class="pending" wx:if="{{pending}}">
+      <view class="pending-title">识别 / 录入结果</view>
+      <view class="pending-row"><text>食物</text><text>{{pending.name}}</text></view>
+      <view class="pending-row"><text>重量</text><text>{{pending.weight}} 克</text></view>
+      <view class="pending-row"><text>热量</text><text>{{pending.calorie}} 千卡</text></view>
+      <view class="pending-row"><text>蛋白质 / 碳水 / 脂肪</text><text>{{pending.protein}}g · {{pending.carb}}g · {{pending.fat}}g</text></view>
+      <view class="pending-actions">
+        <button class="btn-secondary" bindtap="cancelPending">取消</button>
+        <button class="btn-primary flex1" bindtap="confirmPending">确认添加</button>
+      </view>
+    </view>
   </view>
 
-  <!-- 饮水操作 -->
-  <view class="water-section">
-    <button bindtap="addWater">+1 杯水</button>
-    <button bindtap="resetWater" class="gray">重置饮水</button>
+  <view class="mini-strip" wx:if="{{lastFoodSummary}}">
+    <text>{{lastFoodSummary}}</text>
+  </view>
+
+  <view class="card">
+    <view class="row-title">今日热量摄入</view>
+    <view class="row-num">{{totalCal}} / {{calGoal}} 千卡</view>
+    <view class="progress-track">
+      <view class="progress-fill cal" style="width: {{m.pct(totalCal, calGoal)}}%;"></view>
+    </view>
+  </view>
+
+  <view class="card water-card">
+    <view class="card-head">
+      <text class="card-title">饮水量记录</text>
+      <text class="card-emoji">💧</text>
+    </view>
+    <view class="preset-row">
+      <view class="preset" data-ml="200" bindtap="addWaterPreset">200ml</view>
+      <view class="preset" data-ml="300" bindtap="addWaterPreset">300ml</view>
+      <view class="preset" data-ml="500" bindtap="addWaterPreset">500ml</view>
+    </view>
+    <view class="field-label">或手动输入饮水量（毫升）</view>
+    <input class="field-input" type="number" value="{{waterInput}}" bindinput="onWaterInput" placeholder="输入饮水量" />
+    <button class="btn-primary full water-add" bindtap="addWaterManual">💧 添加记录</button>
+    <view class="row-title row-gap">今日饮水量</view>
+    <view class="row-num">{{waterMl}} / {{waterGoal}} ml</view>
+    <view class="progress-track">
+      <view class="progress-fill water" style="width: {{m.pct(waterMl, waterGoal)}}%;"></view>
+    </view>
+    <button class="btn-text" bindtap="resetWater">重置今日饮水</button>
+  </view>
+
+  <view class="summary-card">
+    <text class="summary-label">今日汇总（热量）</text>
+    <text class="summary-val">{{totalCal}}</text>
+    <text class="summary-unit">千卡</text>
+  </view>
+
+  <view class="card" wx:if="{{foodList.length}}">
+    <view class="row-title">今日已记录食物</view>
+    <view class="food-line" wx:for="{{foodList}}" wx:key="id">
+      <text class="food-name">{{item.name}} {{item.weight}}g</text>
+      <text class="food-meta">{{item.calorie}}kcal · P{{item.protein}} C{{item.carb}} F{{item.fat}}</text>
+    </view>
+  </view>
+
+  <view class="bottom-spacer"></view>
+</scroll-view>
+
+<!-- 授权弹窗 -->
+<view class="modal-mask" wx:if="{{showAuthModal}}" catchtouchmove="noop">
+  <view class="modal-box" catchtap="noop">
+    <text class="modal-title">微信授权</text>
+    <text class="modal-desc">我们需要获取您的微信头像与昵称以完善资料</text>
+    <view class="modal-actions">
+      <button class="modal-btn ghost" bindtap="onAuthDecline">拒绝</button>
+      <button class="modal-btn primary" bindtap="onAuthAgree">授权登录</button>
+    </view>
+    <button wx:if="{{isDev}}" class="modal-dev" bindtap="onDevMockLogin">开发模拟登录（本地预览）</button>
   </view>
 </view>
+
+<!-- 健康目标引导 -->
+<view class="modal-mask" wx:if="{{showGoalModal}}" catchtouchmove="noop">
+  <view class="modal-box" catchtap="noop">
+    <text class="modal-title">设置你的健康目标</text>
+    <text class="modal-desc">选择目标后，分析与推荐会更贴合你的需求。</text>
+    <view class="modal-actions vertical">
+      <button class="modal-btn primary full" bindtap="onGoalNow">立即设置</button>
+      <button class="modal-btn link" bindtap="onGoalLater">稍后再说</button>
+    </view>
+  </view>
+</view>
+
+<ai-assistant tab-bar-hidden="{{tabBarHidden}}" />

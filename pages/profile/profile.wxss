@@ -1,77 +1,271 @@
-/* pages/profile/profile.wxss *//* 页面整体背景及容器 */
-page, .container {
-    background-color: #f5f5f5;
-    min-height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  /* 每个信息块卡片样式 */
-  .section {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* 标签样式 */
-  .section text:first-child {
-    display: block;
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 8px;
-  }
-  
-  /* input 输入框样式 */
-  input {
-    width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 8px;
-    font-size: 16px;
-    color: #333;
-    box-sizing: border-box;
-  }
-  
-  /* picker 选择器样式 */
-  .picker {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 8px;
-    font-size: 16px;
-    color: #666;
-    background-color: #fff;
-    box-sizing: border-box;
-  }
-  
-  /* radio-group 样式，内置项水平排列 */
-  radio-group {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  radio-group label {
-    display: flex;
-    align-items: center;
-    margin-right: 20rpx;
-    margin-bottom: 5px;
-  }
-  radio-group radio {
-    margin-right: 5px;
-  }
-  
-  /* 保存按钮样式 */
-  button {
-    width: 100%;
-    background-color: #1AAD19;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 18px;
-    margin-top: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  }
-  
+.page {
+  padding: 24rpx 28rpx 0;
+  box-sizing: border-box;
+}
+
+.header-card {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 28rpx rgba(0, 0, 0, 0.05);
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: #eee;
+  flex-shrink: 0;
+}
+
+.header-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.nick {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 800;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.sub {
+  font-size: 22rpx;
+  color: #999;
+  line-height: 1.4;
+}
+
+.card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 28rpx rgba(0, 0, 0, 0.05);
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #5aaf4f;
+  margin-bottom: 16rpx;
+}
+
+.card-head .card-title {
+  margin-bottom: 0;
+}
+
+.card-tip {
+  font-size: 22rpx;
+  color: #aaa;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  width: 200rpx;
+  font-size: 26rpx;
+  color: #555;
+  flex-shrink: 0;
+}
+
+.inp {
+  flex: 1;
+  font-size: 28rpx;
+  padding: 12rpx 16rpx;
+  background: #f7f8f6;
+  border-radius: 12rpx;
+}
+
+.rg {
+  flex: 1;
+  display: flex;
+  gap: 32rpx;
+}
+
+.lb {
+  display: flex;
+  align-items: center;
+  font-size: 26rpx;
+}
+
+.picker-val {
+  flex: 1;
+  font-size: 28rpx;
+  color: #333;
+  padding: 12rpx 16rpx;
+  background: #f7f8f6;
+  border-radius: 12rpx;
+}
+
+.bmi-card {
+  background: linear-gradient(145deg, #f6fcf4, #eef8eb);
+  border: 1rpx solid #e0eee0;
+}
+
+.bmi-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.bmi-num {
+  font-size: 56rpx;
+  font-weight: 800;
+  color: #5aaf4f;
+}
+
+.bmi-badge {
+  font-size: 24rpx;
+  padding: 6rpx 20rpx;
+  border-radius: 999rpx;
+  background: #5aaf4f;
+  color: #fff;
+  font-weight: 600;
+}
+
+.bmi-advice {
+  font-size: 26rpx;
+  color: #555;
+  line-height: 1.6;
+}
+
+.goal-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+
+.goal-item {
+  width: calc(50% - 10rpx);
+  box-sizing: border-box;
+  padding: 28rpx 16rpx;
+  border-radius: 20rpx;
+  background: #f5f6f4;
+  text-align: center;
+  border: 2rpx solid transparent;
+}
+
+.goal-item.on {
+  background: #e8f5e4;
+  border-color: #5aaf4f;
+}
+
+.g-emoji {
+  display: block;
+  font-size: 44rpx;
+  margin-bottom: 8rpx;
+}
+
+.g-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.trend-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 24rpx;
+  gap: 12rpx;
+}
+
+.trend-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.trend-bar-wrap {
+  width: 100%;
+  height: 200rpx;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: #f0f4ef;
+  border-radius: 12rpx;
+  overflow: hidden;
+}
+
+.trend-bar {
+  width: 72%;
+  min-height: 16rpx;
+  background: linear-gradient(180deg, #7bc96f, #5aaf4f);
+  border-radius: 8rpx 8rpx 0 0;
+}
+
+.trend-val {
+  font-size: 22rpx;
+  color: #5aaf4f;
+  font-weight: 700;
+  margin-top: 12rpx;
+}
+
+.trend-lb {
+  font-size: 20rpx;
+  color: #888;
+  margin-top: 4rpx;
+}
+
+.switch-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.switch-row:last-child {
+  border-bottom: none;
+}
+
+.sw {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.sw.on {
+  color: #5aaf4f;
+  font-weight: 700;
+}
+
+.btn-save {
+  width: 100%;
+  background: #5aaf4f !important;
+  color: #fff !important;
+  border-radius: 999rpx !important;
+  font-size: 30rpx !important;
+  font-weight: 700;
+  border: none !important;
+  margin-bottom: 32rpx;
+}
+
+.bottom-spacer {
+  height: 48rpx;
+}

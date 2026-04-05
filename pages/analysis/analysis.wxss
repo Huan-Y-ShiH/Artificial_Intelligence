@@ -1,61 +1,242 @@
-/* 整体页面背景 */
-.container {
-    background-color: #f5f5f5;
-    min-height: 100vh;
-  }
-  
-  /* 内容区域留边 */
-  .content {
-    padding: 20px;
-  }
-  
-  /* 每个数据块 */
-  .section {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* 分区标题 */
-  .section-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  /* 每天记录样式 */
-  .record {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-  }
-  .record:last-child {
-    border-bottom: none;
-  }
-  .record-date {
-    color: #666;
-  }
-  .record-calorie {
-    color: #333;
-  }
-  
-  /* 异常提醒项 */
-  .alert-item {
-    padding: 8px 0;
-    color: #d9534f; /* 红色字体 */
-    border-bottom: 1px solid #eee;
-  }
-  .alert-item:last-child {
-    border-bottom: none;
-  }
-  
-  /* 总体建议 */
-  .suggestion {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #333;
-  }
-  
+.page {
+  padding: 24rpx 28rpx 0;
+  box-sizing: border-box;
+}
+
+.date-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.date-label {
+  font-size: 28rpx;
+  color: #555;
+  font-weight: 600;
+}
+
+.date-pill {
+  padding: 16rpx 32rpx;
+  background: #fff;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  color: #5aaf4f;
+  font-weight: 600;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+}
+
+.card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 28rpx rgba(0, 0, 0, 0.05);
+}
+
+.card.cream {
+  background: linear-gradient(180deg, #fffdf8, #fffaf0);
+  border: 1rpx solid #f5ead0;
+}
+
+.card.greenish {
+  background: linear-gradient(180deg, #f6fcf4, #eef8eb);
+  border: 1rpx solid #ddeedd;
+}
+
+.card.blueish {
+  background: linear-gradient(180deg, #f7fbff, #eef6ff);
+  border: 1rpx solid #dde8f5;
+}
+
+.card-title-row {
+  margin-bottom: 16rpx;
+}
+
+.h2 {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #333;
+}
+
+.sub {
+  display: block;
+  font-size: 22rpx;
+  color: #888;
+  margin-top: 6rpx;
+}
+
+.legend {
+  display: flex;
+  gap: 32rpx;
+  margin-bottom: 20rpx;
+}
+
+.legend.small-gap {
+  margin-top: 8rpx;
+  margin-bottom: 12rpx;
+}
+
+.lg {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  font-size: 22rpx;
+  color: #666;
+}
+
+.dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+}
+
+.dot.blue {
+  background: #4a9eff;
+}
+
+.dot.yellow {
+  background: #f5c542;
+}
+
+.bar-block {
+  margin-bottom: 28rpx;
+}
+
+.bar-block:last-child {
+  margin-bottom: 0;
+}
+
+.bar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.nut-name {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #444;
+}
+
+.nut-val {
+  font-size: 22rpx;
+  color: #666;
+}
+
+.bar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.bar-track {
+  height: 28rpx;
+  background: #eee;
+  border-radius: 999rpx;
+  overflow: hidden;
+}
+
+.bar-in {
+  height: 100%;
+  background: linear-gradient(90deg, #4a9eff, #6bb8ff);
+  border-radius: 999rpx;
+}
+
+.bar-rec {
+  height: 100%;
+  background: linear-gradient(90deg, #f5c542, #ffd36a);
+  border-radius: 999rpx;
+}
+
+.trend-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.fire {
+  font-size: 24rpx;
+  color: #e85d04;
+  font-weight: 600;
+}
+
+.seg {
+  display: flex;
+  background: #fff;
+  border-radius: 999rpx;
+  padding: 6rpx;
+  margin-bottom: 8rpx;
+}
+
+.seg-item {
+  flex: 1;
+  text-align: center;
+  padding: 14rpx 0;
+  font-size: 24rpx;
+  color: #666;
+  border-radius: 999rpx;
+}
+
+.seg-item.on {
+  background: #4a9eff;
+  color: #fff;
+  font-weight: 600;
+}
+
+.trend-canvas {
+  width: 100%;
+  height: 360rpx;
+  display: block;
+  border-radius: 16rpx;
+  margin-top: 8rpx;
+}
+
+.y-note {
+  font-size: 20rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+.smart-head {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 16rpx;
+}
+
+.bulb {
+  font-size: 36rpx;
+}
+
+.smart-body {
+  font-size: 26rpx;
+  color: #444;
+  line-height: 1.65;
+}
+
+.h2.warn {
+  color: #c0392b;
+  margin-bottom: 12rpx;
+}
+
+.alert-line {
+  font-size: 26rpx;
+  color: #c0392b;
+  line-height: 1.5;
+  padding: 8rpx 0;
+}
+
+.body-text {
+  display: block;
+  font-size: 26rpx;
+  color: #555;
+  line-height: 1.6;
+  margin-top: 12rpx;
+}
+
+.bottom-spacer {
+  height: 48rpx;
+}

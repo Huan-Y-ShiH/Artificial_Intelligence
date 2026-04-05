@@ -1,0 +1,49 @@
+.tab-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* 低于 AI 悬浮球/对话层，避免遮挡聊天面板 */
+  z-index: 900;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  min-height: 100rpx;
+  padding-top: 12rpx;
+  background: #fff;
+  box-shadow: 0 -4rpx 24rpx rgba(0, 0, 0, 0.06);
+  border-top: 1rpx solid #eee;
+  transform: translateY(0);
+  transition: transform 0.32s cubic-bezier(0.25, 0.8, 0.25, 1);
+  will-change: transform;
+}
+
+.tab-bar--hidden {
+  transform: translateY(100%);
+  pointer-events: none;
+  box-shadow: none;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 8rpx;
+  color: #8a8a8a;
+}
+
+.tab-item.active {
+  color: #5aaf4f;
+}
+
+.tab-icon {
+  font-size: 40rpx;
+  line-height: 1.2;
+  margin-bottom: 4rpx;
+}
+
+.tab-text {
+  font-size: 22rpx;
+}

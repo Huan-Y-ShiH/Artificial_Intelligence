@@ -1,32 +1,111 @@
-<view class="container">
-  <!-- 导航栏组件 -->
-  <navigation-bar title="营养分析" showLeftIcon="true"></navigation-bar>
-  <view class="content">
-    <!-- 最近7天记录 -->
-    <view class="section">
-      <text class="section-title">最近7天热量摄入 (kcal)：</text>
-      <block wx:for="{{last7days}}" wx:key="date">
-        <view class="record">
-          <text class="record-date">{{item.date}}</text>
-          <text class="record-calorie">{{item.calorie}} kcal</text>
-        </view>
-      </block>
-    </view>
-    <!-- 异常提醒 -->
-    <view class="section" wx:if="{{alerts.length}}">
-      <text class="section-title">异常提醒：</text>
-      <block wx:for="{{alerts}}" wx:key="*this">
-        <view class="alert-item">
-          <text>{{index+1}}. {{item}}</text>
-        </view>
-      </block>
-    </view>
-    <!-- 总体建议 -->
-    <view class="section">
-      <text class="section-title">总体建议：</text>
-      <view class="suggestion">
-        <text>{{suggestion}}</text>
-      </view>
-    </view>
+<wxs module="b">
+function max2(a, c) {
+  var m = a > c ? a : c;
+  if (m <= 0) m = 1;
+  return m * 1.08;
+}
+function pct(v, maxv) {
+  if (!maxv) return 0;
+  var p = (v / maxv) * 100;
+  if (p > 100) p = 100;
+  return Math.round(p * 10) / 10;
+}
+module.exports.max2 = max2;
+module.exports.pct = pct;
+</wxs>
+
+<scroll-view
+  class="page safe-page {{tabBarHidden ? 'safe-page--compact' : ''}}"
+  style="height: {{scrollViewHeight}}px;"
+  scroll-y="{{true}}"
+  bindscroll="onTabPageScroll"
+  bindscrolltoupper="onTabPageScrollToUpper"
+  upper-threshold="50"
+>
+  <view class="date-row">
+    <text class="date-label">选择日期</text>
+    <picker mode="date" value="{{pickerDate}}" bindchange="onDateChange">
+      <view class="date-pill">{{pickerDate}}</view>
+    </picker>
   </view>
-</view>
+
+  <view class="card cream">
+    <view class="card-title-row">
+      <text class="h2">每日摄入 vs 推荐值</text>
+      <text class="sub">{{displayDate}}</text>
+    </view>
+    <view class="legend">
+      <view class="lg"><view class="dot blue"></view><text>摄入量</text></view>
+      <view class="lg"><view class="dot yellow"></view><text>推荐量</text></view>
+    </view>
+    <block wx:for="{{bars}}" wx:key="name">
+      <view class="bar-block">
+        <view class="bar-head">
+          <text class="nut-name">{{item.name}}</text>
+          <text class="nut-val">{{item.inVal}} / {{item.recVal}} {{item.unit}}</text>
+        </view>
+        <view class="bar-group">
+          <view class="bar-track">
+            <view
+              class="bar-in"
+              style="width: {{b.pct(item.inVal, b.max2(item.inVal, item.recVal))}}%;"
+            ></view>
+          </view>
+          <view class="bar-track">
+            <view
+              class="bar-rec"
+              style="width: {{b.pct(item.recVal, b.max2(item.inVal, item.recVal))}}%;"
+            ></view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view class="card greenish">
+    <view class="trend-head">
+      <text class="h2">营养摄入趋势</text>
+      <text class="fire">热量</text>
+    </view>
+    <view class="seg">
+      <view
+        class="seg-item {{trendMode === 3 ? 'on' : ''}}"
+        data-mode="3"
+        bindtap="setTrendMode"
+      >近3天</view>
+      <view
+        class="seg-item {{trendMode === 7 ? 'on' : ''}}"
+        data-mode="7"
+        bindtap="setTrendMode"
+      >近7天</view>
+    </view>
+    <view class="legend small-gap">
+      <view class="lg"><view class="dot blue"></view><text>摄入量</text></view>
+      <view class="lg"><view class="dot yellow"></view><text>推荐量</text></view>
+    </view>
+    <canvas type="2d" id="trendCanvas" class="trend-canvas"></canvas>
+    <view class="y-note">纵轴：千卡 · 最高约 {{trendMax}} kcal</view>
+  </view>
+
+  <view class="card blueish" wx:if="{{smartText}}">
+    <view class="smart-head">
+      <text class="bulb">💡</text>
+      <text class="h2">智能建议</text>
+    </view>
+    <text class="smart-body">{{smartText}}</text>
+  </view>
+
+  <view class="card" wx:if="{{alerts.length}}">
+    <text class="h2 warn">异常提醒</text>
+    <view class="alert-line" wx:for="{{alerts}}" wx:key="*this">{{item}}</view>
+  </view>
+
+  <view class="card">
+    <text class="h2">总体建议</text>
+    <text class="body-text">{{suggestion}}</text>
+  </view>
+
+  <view class="bottom-spacer"></view>
+</scroll-view>
+
+<ai-assistant tab-bar-hidden="{{tabBarHidden}}" />

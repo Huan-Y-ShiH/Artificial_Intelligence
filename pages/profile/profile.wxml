@@ -1,40 +1,117 @@
-<view class="container">
-  <view class="section">
-    <text>昵称：</text>
-    <text>{{userInfo ? userInfo.nickName : '未获取'}}</text>
+<scroll-view
+  class="page safe-page {{tabBarHidden ? 'safe-page--compact' : ''}}"
+  style="height: {{scrollViewHeight}}px;"
+  scroll-y="{{true}}"
+  bindscroll="onTabPageScroll"
+  bindscrolltoupper="onTabPageScrollToUpper"
+  upper-threshold="50"
+>
+  <view class="header-card">
+    <image
+      class="avatar"
+      src="{{userInfo.avatarUrl || 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3EaOiasW7vbMgoDBpRKhGBPJw/0'}}"
+      mode="aspectFill"
+    />
+    <view class="header-text">
+      <text class="nick">{{userInfo.nickName || '微信用户'}}</text>
+      <text class="sub">个人健康档案 · 数据仅保存在本机</text>
+    </view>
   </view>
-  <view class="section">
-    <text>性别：</text>
-    <radio-group model:value="{{profile.gender}}">
-      <label><radio value="男"/> 男</label>
-      <label style="margin-left:20rpx;"><radio value="女"/> 女</label>
-    </radio-group>
+
+  <view class="card">
+    <view class="card-head">
+      <text class="card-title">基本信息</text>
+      <text class="card-tip">填写后点底部保存</text>
+    </view>
+    <view class="row">
+      <text class="label">年龄</text>
+      <input class="inp" type="number" model:value="{{profile.age}}" placeholder="岁" />
+    </view>
+    <view class="row">
+      <text class="label">性别</text>
+      <radio-group class="rg" model:value="{{profile.gender}}">
+        <label class="lb"><radio value="男" />男</label>
+        <label class="lb"><radio value="女" />女</label>
+      </radio-group>
+    </view>
+    <view class="row">
+      <text class="label">身高(cm)</text>
+      <input class="inp" type="digit" model:value="{{profile.height}}" placeholder="如 165" />
+    </view>
+    <view class="row">
+      <text class="label">体重(kg)</text>
+      <input class="inp" type="digit" model:value="{{profile.weight}}" placeholder="如 55" />
+    </view>
+    <view class="row">
+      <text class="label">目标体重(kg)</text>
+      <input
+        class="inp"
+        type="digit"
+        value="{{profile.targetWeight}}"
+        bindinput="onTargetWeightInput"
+        placeholder="可选，不填则按目标推算"
+      />
+    </view>
+    <view class="row">
+      <text class="label">运动频率</text>
+      <picker mode="selector" range="{{exerciseOptions}}" bindchange="onExerciseChange">
+        <view class="picker-val">{{profile.exerciseFreq || '请选择'}}</view>
+      </picker>
+    </view>
   </view>
-  <view class="section">
-    <text>年龄：</text>
-    <input type="number" model:value="{{profile.age}}" placeholder="请输入年龄" />
+
+  <view class="card bmi-card">
+    <text class="card-title">BMI 指数</text>
+    <view class="bmi-row">
+      <text class="bmi-num">{{bmiText}}</text>
+      <text class="bmi-badge" wx:if="{{bmiBadge}}">{{bmiBadge}}</text>
+    </view>
+    <text class="bmi-advice">{{bmiAdvice}}</text>
   </view>
-  <view class="section">
-    <text>身高(cm)：</text>
-    <input type="number" model:value="{{profile.height}}" placeholder="例如170" />
+
+  <view class="card">
+    <text class="card-title">健康目标</text>
+    <view class="goal-grid">
+      <view
+        wx:for="{{goalOptions}}"
+        wx:key="key"
+        class="goal-item {{profile.goal === item.key ? 'on' : ''}}"
+        data-goal="{{item.key}}"
+        bindtap="selectGoal"
+      >
+        <text class="g-emoji">{{item.emoji}}</text>
+        <text class="g-title">{{item.title}}</text>
+      </view>
+    </view>
   </view>
-  <view class="section">
-    <text>体重(kg)：</text>
-    <input type="number" model:value="{{profile.weight}}" placeholder="例如65" />
+
+  <view class="card" wx:if="{{trendBars.length}}">
+    <text class="card-title">预期体重变化趋势</text>
+    <view class="trend-chart">
+      <view class="trend-col" wx:for="{{trendBars}}" wx:key="label">
+        <view class="trend-bar-wrap">
+          <view class="trend-bar" style="height: {{item.h}}%;"></view>
+        </view>
+        <text class="trend-val">{{item.val}}kg</text>
+        <text class="trend-lb">{{item.label}}</text>
+      </view>
+    </view>
   </view>
-  <view class="section">
-    <text>运动频率：</text>
-    <picker mode="selector" range="{{exerciseOptions}}" bindchange="onExerciseChange">
-      <view class="picker">{{profile.exerciseFreq || '请选择运动频率'}}</view>
-    </picker>
+
+  <view class="card">
+    <text class="card-title">饮食偏好（影响推荐）</text>
+    <view class="switch-row" bindtap="toggleVege">
+      <text>素食优先</text>
+      <text class="sw {{profile.vegetarian ? 'on' : ''}}">{{profile.vegetarian ? '已开启' : '关闭'}}</text>
+    </view>
+    <view class="switch-row" bindtap="toggleLactose">
+      <text>无乳糖 / 少乳制品</text>
+      <text class="sw {{profile.lactoseFree ? 'on' : ''}}">{{profile.lactoseFree ? '已开启' : '关闭'}}</text>
+    </view>
   </view>
-  <view class="section">
-    <text>健康目标：</text>
-    <radio-group model:value="{{profile.goal}}">
-      <block wx:for="{{goalOptions}}" wx:key="value">
-        <label style="margin-right:20rpx;"><radio value="{{item}}"/> {{item}}</label>
-      </block>
-    </radio-group>
-  </view>
-  <button type="primary" bindtap="saveProfile">保存</button>
-</view>
+
+  <button class="btn-save" bindtap="saveProfile">保存资料</button>
+  <view class="bottom-spacer"></view>
+</scroll-view>
+
+<ai-assistant tab-bar-hidden="{{tabBarHidden}}" />

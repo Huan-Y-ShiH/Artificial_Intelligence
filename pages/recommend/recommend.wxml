@@ -1,23 +1,87 @@
-<view class="container">
-  <!-- 显示用户健康目标与偏好 -->
-  <view class="pref card">
-    <text class="goal">您的健康目标：{{profile.goal}}</text>
-    <text class="preference">
-      偏好：
-      {{preference.vegetarian ? '素食 ' : ''}}
-      {{preference.lactoseFree ? '无乳糖 ' : ''}}
-    </text>
+<scroll-view
+  class="page safe-page {{tabBarHidden ? 'safe-page--compact' : ''}}"
+  style="height: {{scrollViewHeight}}px;"
+  scroll-y="{{true}}"
+  bindscroll="onTabPageScroll"
+  bindscrolltoupper="onTabPageScrollToUpper"
+  upper-threshold="50"
+>
+  <view class="hero">
+    <text class="hero-title">营养套餐推荐</text>
+    <text class="hero-sub">根据您的饮食偏好和营养需求，为您推荐合适的餐食</text>
+    <text class="hero-hint">{{goalHint}}</text>
   </view>
-  <!-- 显示今日餐饮推荐 -->
-  <view class="meal-plan card">
-    <text class="title">今日餐饮推荐</text>
-    <text class="meal-item">早餐：{{todayMeals.breakfast}}</text>
-    <text class="meal-item">午餐：{{todayMeals.lunch}}</text>
-    <text class="meal-item">晚餐：{{todayMeals.dinner}}</text>
+
+  <view class="card" wx:if="{{!hasProfile}}">
+    <text class="tip">还未设置健康目标，推荐需要了解您的目标与身体数据。</text>
+    <button class="btn-primary" bindtap="goProfile">去「我的」完善资料</button>
   </view>
-  <!-- 显示推荐理由 -->
-  <view class="note card">
-    <text class="title">推荐理由：</text>
-    <text class="reason">{{todayMeals.note}}</text>
-  </view>
-</view>
+
+  <block wx:else>
+    <view class="card">
+      <view class="sec-title">✓ 选择您的饮食偏好</view>
+      <view class="tag-grid">
+        <view
+          wx:for="{{tags}}"
+          wx:key="*this"
+          class="tag {{selectedTags.indexOf(item) >= 0 ? 'on' : ''}}"
+          data-tag="{{item}}"
+          bindtap="toggleTag"
+        >{{item}}</view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="sec-title">⏱ 选择餐食类型</view>
+      <view class="meal-row">
+        <view
+          class="meal-btn {{mealType === 'breakfast' ? 'on' : ''}}"
+          data-type="breakfast"
+          bindtap="setMealType"
+        >早餐</view>
+        <view
+          class="meal-btn {{mealType === 'lunch' ? 'on' : ''}}"
+          data-type="lunch"
+          bindtap="setMealType"
+        >午餐</view>
+        <view
+          class="meal-btn {{mealType === 'dinner' ? 'on' : ''}}"
+          data-type="dinner"
+          bindtap="setMealType"
+        >晚餐</view>
+      </view>
+    </view>
+
+    <button class="btn-primary full search" bindtap="onGetRecommend">
+      🔍 获取推荐
+    </button>
+
+    <view class="loading-box" wx:if="{{loading}}">
+      <text class="bag">🛍</text>
+      <text class="loading-txt">正在为您精心挑选合适的餐食…</text>
+    </view>
+
+    <view class="cards" wx:if="{{!loading && cards.length}}">
+      <view class="meal-card" wx:for="{{cards}}" wx:key="name">
+        <text class="meal-name">{{item.name}}</text>
+        <text class="meal-desc">{{item.desc}}</text>
+        <view class="nut-row">
+          <view class="nut-cell"><text class="nk">热量</text><text class="nv">{{item.cal}}kcal</text></view>
+          <view class="nut-cell"><text class="nk">蛋白质</text><text class="nv">{{item.protein}}g</text></view>
+          <view class="nut-cell"><text class="nk">脂肪</text><text class="nv">{{item.fat}}g</text></view>
+          <view class="nut-cell"><text class="nk">碳水</text><text class="nv">{{item.carb}}g</text></view>
+        </view>
+        <view class="reason-box">
+          <text class="rk">推荐理由：</text>
+          <text class="rv">{{item.reason}}</text>
+        </view>
+      </view>
+    </view>
+
+    <button wx:if="{{!loading && cards.length}}" class="btn-shuffle" bindtap="onShuffle">换一换</button>
+  </block>
+
+  <view class="bottom-spacer"></view>
+</scroll-view>
+
+<ai-assistant tab-bar-hidden="{{tabBarHidden}}" />

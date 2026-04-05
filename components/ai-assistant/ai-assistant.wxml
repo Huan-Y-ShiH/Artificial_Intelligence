@@ -1,0 +1,57 @@
+<view class="ai-wrap" catchtouchmove="noop">
+  <!-- 悬浮球：贴右侧，高于 TabBar，不挡页面中部主体 -->
+  <view
+    wx:if="{{!open}}"
+    class="fab"
+    style="bottom: {{fabBottom}}px;"
+    hover-class="fab-hover"
+    hover-stay-time="80"
+    bindtap="togglePanel"
+  >
+    <text class="fab-text">AI</text>
+  </view>
+
+  <block wx:if="{{open}}">
+    <view class="dim" bindtap="closePanel"></view>
+    <view class="sheet" catchtap="noop">
+      <view class="sheet-handle"></view>
+      <view class="sheet-head">
+        <text class="sheet-title">营养 AI 助手</text>
+        <text class="sheet-close" bindtap="closePanel">收起</text>
+      </view>
+      <scroll-view
+        class="msg-scroll"
+        scroll-y
+        scroll-into-view="{{scrollTo}}"
+        scroll-with-animation
+      >
+        <view
+          wx:for="{{messages}}"
+          wx:key="id"
+          id="msg-{{item.id}}"
+          class="bubble-row {{item.role === 'user' ? 'from-user' : 'from-ai'}}"
+        >
+          <view class="bubble {{item.role === 'user' ? 'b-user' : 'b-ai'}}">
+            <text class="bubble-text" selectable>{{item.content}}</text>
+          </view>
+        </view>
+        <view wx:if="{{sending}}" class="bubble-row from-ai">
+          <view class="bubble b-ai typing">正在思考…</view>
+        </view>
+        <view class="scroll-bottom" id="msg-end"></view>
+      </scroll-view>
+      <view class="composer safe-bottom">
+        <input
+          class="composer-input"
+          value="{{inputValue}}"
+          bindinput="onInput"
+          confirm-type="send"
+          bindconfirm="send"
+          placeholder="输入问题，如：减脂早餐怎么搭配？"
+          adjust-position="{{true}}"
+        />
+        <button class="composer-send" bindtap="send" disabled="{{sending}}">发送</button>
+      </view>
+    </view>
+  </block>
+</view>
