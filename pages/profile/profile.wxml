@@ -25,22 +25,43 @@
     </view>
     <view class="row">
       <text class="label">年龄</text>
-      <input class="inp" type="number" model:value="{{profile.age}}" placeholder="岁" />
+      <input
+        class="inp"
+        type="number"
+        value="{{profile.age}}"
+        placeholder="岁"
+        data-f="age"
+        bindinput="onProfileFieldInput"
+      />
     </view>
     <view class="row">
       <text class="label">性别</text>
-      <radio-group class="rg" model:value="{{profile.gender}}">
-        <label class="lb"><radio value="男" />男</label>
-        <label class="lb"><radio value="女" />女</label>
+      <radio-group class="rg" value="{{profile.gender}}" bindchange="onGenderChange">
+        <label class="lb"><radio value="男" color="#5aaf4f" />男</label>
+        <label class="lb"><radio value="女" color="#5aaf4f" />女</label>
       </radio-group>
     </view>
     <view class="row">
       <text class="label">身高(cm)</text>
-      <input class="inp" type="digit" model:value="{{profile.height}}" placeholder="如 165" />
+      <input
+        class="inp"
+        type="digit"
+        value="{{profile.height}}"
+        placeholder="如 165"
+        data-f="height"
+        bindinput="onProfileFieldInput"
+      />
     </view>
     <view class="row">
       <text class="label">体重(kg)</text>
-      <input class="inp" type="digit" model:value="{{profile.weight}}" placeholder="如 55" />
+      <input
+        class="inp"
+        type="digit"
+        value="{{profile.weight}}"
+        placeholder="如 55"
+        data-f="weight"
+        bindinput="onProfileFieldInput"
+      />
     </view>
     <view class="row">
       <text class="label">目标体重(kg)</text>

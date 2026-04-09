@@ -64,6 +64,14 @@
   color: #fff;
 }
 
+.tag-hover {
+  opacity: 0.85;
+}
+
+.meal-btn-hover {
+  opacity: 0.88;
+}
+
 .meal-row {
   display: flex;
   gap: 16rpx;

@@ -155,17 +155,39 @@ Page({
     this.persistProfile({ lactoseFree: !this.data.profile.lactoseFree });
   },
 
+  onProfileFieldInput(e) {
+    const f = e.currentTarget.dataset.f;
+    if (!f) return;
+    this.setData({ [`profile.${f}`]: e.detail.value });
+  },
+
+  onGenderChange(e) {
+    this.setData({ 'profile.gender': e.detail.value || '' });
+  },
+
   onTargetWeightInput(e) {
     const v = e.detail.value;
-    this.setData({ 'profile.targetWeight': v === '' ? null : Number(v) });
+    this.setData({ 'profile.targetWeight': v === '' ? '' : v });
   },
 
   saveProfile() {
-    const profile = { ...this.data.profile };
-    if (profile.height && profile.weight) {
-      const h = Number(profile.height) / 100;
+    const raw = { ...this.data.profile };
+    const profile = {
+      ...raw,
+      age: raw.age === '' || raw.age == null ? null : Number(raw.age),
+      height: raw.height === '' || raw.height == null ? null : Number(raw.height),
+      weight: raw.weight === '' || raw.weight == null ? null : Number(raw.weight),
+      targetWeight:
+        raw.targetWeight === '' || raw.targetWeight == null || raw.targetWeight === undefined
+          ? null
+          : Number(raw.targetWeight)
+    };
+    if (Number(profile.height) > 0 && Number(profile.weight) > 0) {
+      const hm = Number(profile.height) / 100;
       const w = Number(profile.weight);
-      profile.BMI = (w / (h * h)).toFixed(1);
+      profile.BMI = (w / (hm * hm)).toFixed(1);
+    } else {
+      delete profile.BMI;
     }
     wx.setStorageSync('profile', profile);
     this.setData({ profile }, () => this.refreshBmiAndTrend(profile));

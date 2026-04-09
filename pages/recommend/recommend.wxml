@@ -1,3 +1,14 @@
+<wxs module="tg">
+function has(arr, x) {
+  if (!arr || !arr.length) return false;
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i] === x) return true;
+  }
+  return false;
+}
+module.exports.has = has;
+</wxs>
+
 <scroll-view
   class="page safe-page {{tabBarHidden ? 'safe-page--compact' : ''}}"
   style="height: {{scrollViewHeight}}px;"
@@ -24,9 +35,11 @@
         <view
           wx:for="{{tags}}"
           wx:key="*this"
-          class="tag {{selectedTags.indexOf(item) >= 0 ? 'on' : ''}}"
+          class="tag {{tg.has(selectedTags, item) ? 'on' : ''}}"
           data-tag="{{item}}"
-          bindtap="toggleTag"
+          hover-class="tag-hover"
+          hover-stay-time="80"
+          catchtap="toggleTag"
         >{{item}}</view>
       </view>
     </view>
@@ -37,17 +50,20 @@
         <view
           class="meal-btn {{mealType === 'breakfast' ? 'on' : ''}}"
           data-type="breakfast"
-          bindtap="setMealType"
+          hover-class="meal-btn-hover"
+          catchtap="setMealType"
         >早餐</view>
         <view
           class="meal-btn {{mealType === 'lunch' ? 'on' : ''}}"
           data-type="lunch"
-          bindtap="setMealType"
+          hover-class="meal-btn-hover"
+          catchtap="setMealType"
         >午餐</view>
         <view
           class="meal-btn {{mealType === 'dinner' ? 'on' : ''}}"
           data-type="dinner"
-          bindtap="setMealType"
+          hover-class="meal-btn-hover"
+          catchtap="setMealType"
         >晚餐</view>
       </view>
     </view>
